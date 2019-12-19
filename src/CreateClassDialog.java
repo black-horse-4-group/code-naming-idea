@@ -1,6 +1,9 @@
+import com.intellij.openapi.wm.WindowManager;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
 
@@ -14,49 +17,32 @@ public class CreateClassDialog extends JDialog {
 
     public CreateClassDialog(DialogCallBack callBack) {
         setContentPane(contentPane);
+        //setLocationRelativeTo(null);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.mCallBack=callBack;
+        list1.setVisible(false);
+
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
-
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
             }
         });
 
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        list1.setVisible(false);
         DefaultListSelectionModel defaultListSelectionModel=new DefaultListSelectionModel();
         defaultListSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list1.setSelectionModel(defaultListSelectionModel);
-        textField1.addActionListener(new ActionListener(){
-
-            public void actionPerformed(ActionEvent e){
-                Vector<Integer> list=new Vector<>();
-                list.add(1);
-                list.add(2);
-                list.add(3);
-                list1.setListData(list);
-                list1.setVisible(true);
-            }});
 
         list1.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -67,36 +53,54 @@ public class CreateClassDialog extends JDialog {
                         list1.setVisible(false);
                     }
                 }
-
             }
         });
+
+        textField1.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent e){
+                Vector<Integer> list=new Vector<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                list.add(4);
+                list.add(5);
+                list.add(6);
+                list.add(7);
+                list.add(8);
+                list.add(9);
+                list1.setListData(list);
+                list1.setVisible(true);
+            }});
+        // call onCancel() on ESCAPE
+        contentPane.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
     }
 
     private void onOK() {
+        boolean result=false;
         if (null != mCallBack){
-            mCallBack.ok(textField1.getText());
+           result=mCallBack.ok(textField1.getText());
         }
-        dispose();
+        if(result){
+            dispose();
+            //todo 测试期间先放开
+          //  System.exit(0);
+        }
+
     }
 
     private void onCancel() {
         // add your code here if necessary
         dispose();
+        System.exit(0);
     }
 
     public interface DialogCallBack{
-        void ok(String className);
-    }
-
-    public static void main(String[] args) {
-        CreateClassDialog dialog = new CreateClassDialog(new DialogCallBack() {
-            @Override
-            public void ok(String className) {
-
-            }
-        });
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+        boolean ok(String className);
     }
 }
