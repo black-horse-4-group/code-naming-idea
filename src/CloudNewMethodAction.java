@@ -4,6 +4,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.ui.popup.ListPopup;
+import com.intellij.openapi.ui.popup.PopupChooserBuilder;
+import com.intellij.openapi.ui.popup.util.BaseListPopupStep;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CloudNewMethodAction extends AnAction {
 
@@ -30,5 +35,8 @@ public class CloudNewMethodAction extends AnAction {
         ListPopup listPopup = JBPopupFactory.getInstance().createActionGroupPopup("ListPopup Sample", actionGroup, e.getDataContext(), JBPopupFactory.ActionSelectionAid.SPEEDSEARCH, false);
         listPopup.showInBestPositionFor(e.getDataContext());
 */
+        List<String> list=new ArrayList<>();
+        ListPopup listPopup= JBPopupFactory.getInstance().createListPopup(new BaseListPopupStep("test",list));
+        listPopup.showInBestPositionFor(e.getDataContext());
     }
 }
