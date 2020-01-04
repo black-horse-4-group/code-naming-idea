@@ -1,9 +1,11 @@
-import com.intellij.openapi.wm.WindowManager;
+package dialog;
+
+import enums.NameTypeEnum;
+import utils.TranslateUtil;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
 
@@ -13,6 +15,7 @@ public class CreateClassDialog extends JDialog {
     private JButton buttonCancel;
     private JTextField textField1;
     private JList list1;
+    private JTextField textField2;
     private DialogCallBack mCallBack;
 
     public CreateClassDialog(DialogCallBack callBack) {
@@ -49,7 +52,8 @@ public class CreateClassDialog extends JDialog {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()){
                     if(list1.getSelectedValue()!=null){
-                        textField1.setText(list1.getSelectedValue().toString());
+
+                        textField2.setText(list1.getSelectedValue().toString());
                         list1.setVisible(false);
                     }
                 }
@@ -59,17 +63,8 @@ public class CreateClassDialog extends JDialog {
         textField1.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e){
-                Vector<Integer> list=new Vector<>();
-                list.add(1);
-                list.add(2);
-                list.add(3);
-                list.add(4);
-                list.add(5);
-                list.add(6);
-                list.add(7);
-                list.add(8);
-                list.add(9);
-                list1.setListData(list);
+                Vector<String> results= TranslateUtil.translate2Vector(textField1.getText(), NameTypeEnum.CLASS);
+                list1.setListData(results);
                 list1.setVisible(true);
             }});
         // call onCancel() on ESCAPE
@@ -84,9 +79,11 @@ public class CreateClassDialog extends JDialog {
     private void onOK() {
         boolean result=false;
         if (null != mCallBack){
-           result=mCallBack.ok(textField1.getText());
+           result=mCallBack.ok(textField2.getText());
         }
         if(result){
+            //保存
+            TranslateUtil.saveChoice(textField2.getText(),textField1.getText(),NameTypeEnum.CLASS);
             dispose();
             //todo 测试期间先放开
           //  System.exit(0);
@@ -97,7 +94,7 @@ public class CreateClassDialog extends JDialog {
     private void onCancel() {
         // add your code here if necessary
         dispose();
-        System.exit(0);
+       // System.exit(0);
     }
 
     public interface DialogCallBack{

@@ -1,3 +1,5 @@
+package action;
+
 import com.intellij.ide.IdeView;
 import com.intellij.ide.fileTemplates.JavaTemplateUtil;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -10,6 +12,7 @@ import com.intellij.openapi.wm.WindowManager;
 import com.intellij.psi.JavaDirectoryService;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.util.IncorrectOperationException;
+import dialog.CreateClassDialog;
 
 import java.awt.*;
 
@@ -24,7 +27,6 @@ public class CloudNewClassAction extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         // TODO: insert action logic here
         project = e.getData(PlatformDataKeys.PROJECT);
-
         IdeView ideView = e.getRequiredData(LangDataKeys.IDE_VIEW);
         psiDirectory = ideView.getOrChooseDirectory();
         init();
@@ -51,14 +53,14 @@ public class CloudNewClassAction extends AnAction {
                 if(!result){
                     return false;
                 }
-                Messages.showInfoMessage(project,"create mvp code success","title");
                 return true;
             }
         });
+        myDialog.setTitle("cloud new class");
         myDialog.pack();
-        myDialog.setVisible(true);
-        myDialog.setMinimumSize(new Dimension(260, 120));
+        myDialog.setMinimumSize(new Dimension(500, 120));
         myDialog.setLocationRelativeTo(WindowManager.getInstance().getFrame(project));
+        myDialog.setVisible(true);
     }
 
     /**
