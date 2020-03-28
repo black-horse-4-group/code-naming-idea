@@ -1,11 +1,12 @@
 package utils;
 
-import com.jd.intelligent.api.NamingHandler;
-import com.jd.intelligent.beans.NamingRequest;
-import com.jd.intelligent.beans.Translation;
-import com.jd.intelligent.beans.TranslationResult;
-import com.jd.intelligent.enums.OptionEnum;
-import com.jd.intelligent.enums.TypeEnum;
+
+import com.code.naming.intelligent.api.NamingHandler;
+import com.code.naming.intelligent.beans.NamingRequest;
+import com.code.naming.intelligent.beans.Translation;
+import com.code.naming.intelligent.beans.TranslationResult;
+import com.code.naming.intelligent.enums.OptionEnum;
+import com.code.naming.intelligent.enums.TypeEnum;
 import enums.NameTypeEnum;
 
 import java.util.List;
